@@ -13,22 +13,30 @@ namespace Generators
 
     internal class BaseGen
     {
-        protected string _name;
-        protected List<int> _numbers;
-        protected int _n;
-        protected WorkingMode _mode;
+        protected string name;
+        protected List<int> numbers;
+        protected int n;
+        protected WorkingMode mode;
 
-        public BaseGen(string name, int n, List<int> numbers, WorkingMode mode)
+        public BaseGen(string Name, int N, List<int> Numbers, WorkingMode Mode)
         {
-            this.setName(name);
-            this._numbers = numbers;
-            this._n = n;
-            this._mode = mode;
+            this.setName(Name);
+            this.numbers = Numbers;
+            this.n = N;
+            this.mode = Mode;
         }
 
-        public void setName(string name)
+        public void setName(string? Name)
         {
-            this._name = name;
+            if (Name != null)
+                this.name = new string(Name);
+            else
+                throw new Exception("Null pointer");
+        }
+
+        public void TestOutput()
+        {
+            Console.WriteLine(this.name);
         }
 
     }

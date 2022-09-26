@@ -8,19 +8,19 @@
     "net6.0": []
   },
   "packageFolders": {
-    "/home/xpo/.nuget/packages/": {}
+    "/home/xpomin/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/xpo/Programming/NET_projects/lab1/src/src.csproj",
+      "projectUniqueName": "/home/xpomin/Prog/NET/lab1/src/src.csproj",
       "projectName": "src",
-      "projectPath": "/home/xpo/Programming/NET_projects/lab1/src/src.csproj",
-      "packagesPath": "/home/xpo/.nuget/packages/",
-      "outputPath": "/home/xpo/Programming/NET_projects/lab1/src/obj/",
+      "projectPath": "/home/xpomin/Prog/NET/lab1/src/src.csproj",
+      "packagesPath": "/home/xpomin/.nuget/packages/",
+      "outputPath": "/home/xpomin/Prog/NET/lab1/src/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/xpo/.nuget/NuGet/NuGet.Config"
+        "/home/xpomin/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
@@ -53,18 +53,12 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[6.0.8, 6.0.8]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/6.0.108/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/lib64/dotnet/sdk/6.0.108/RuntimeIdentifierGraph.json"
       }
     }
   }
