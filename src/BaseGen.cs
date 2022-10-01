@@ -6,16 +6,17 @@ namespace Generators
     abstract class BaseGen
     {
         protected string? name;
-        protected List<int> numbers;
         protected int n;
+        protected List<int> numbers;
+
         protected WorkingMode mode;
 
         public BaseGen(string Name, int N, List<int> Numbers, WorkingMode Mode)
         {
             this.setName(Name);
             this.numbers = Numbers;
-            this.n = N;
-            this.mode = Mode;
+            this.setN(N);
+            this.setWorkingMode(Mode);
         }
 
         public void setName(string Name)
@@ -30,9 +31,14 @@ namespace Generators
         {
             this.n = N;
         }
-        public void TestOutput()
+
+        public void setNumbers(List<int> Numbers)
         {
-            numbers.ForEach(value => Console.Write(value + " "));
+            numbers = Numbers.ToList();
+        }
+        public void setWorkingMode(WorkingMode Mode)
+        {
+            this.mode = Mode;
         }
 
     }
