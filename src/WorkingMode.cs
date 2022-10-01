@@ -7,5 +7,6 @@ namespace Generators
         Count_Generated,
         Exception,
         NotANumber,
+        Less
     };
 }
