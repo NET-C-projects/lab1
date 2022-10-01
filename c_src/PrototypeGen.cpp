@@ -7,45 +7,10 @@ PrototypeGen::PrototypeGen(std::string _name, std::string _N)
 	SetN(_N);
 }
 
-//PrototypeGen::PrototypeGen(PrototypeGen& source)
-//{
-//	this->name = source.name;
-//	this->N = source.N;
-//	this->numbers = source.numbers;
-//
-//}
-//
-//PrototypeGen& PrototypeGen::operator=(const PrototypeGen& source)
-//{
-//	if (this != &source) {
-//		this->name = source.name;
-//		this->N = source.N;
-//		this->numbers = source.numbers;
-//	}
-//	return *this;
-//}
-//
-//PrototypeGen::PrototypeGen(PrototypeGen&& other) noexcept :name(other.name), N(other.N), numbers(other.numbers)
-//{
-//	other.name = "";
-//	other.N = 0;
-//	other.numbers = {};
-//}
-//
-//PrototypeGen& PrototypeGen::operator=(PrototypeGen&& other) noexcept
-//{
-//	if (this == &other)
-//		return *this;
-//	std::swap(name, other.name);
-//	std::swap(N, other.N);
-//	std::swap(numbers, other.numbers);
-//	return *this;
-//}
-
 void PrototypeGen::SetName(std::string _name)
 {
 	if (_name == "")
-		throw std::invalid_argument("Имя не задано");
+		throw std::invalid_argument("пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ");
 	else
 		this->name = _name;
 
@@ -69,9 +34,9 @@ void PrototypeGen::SetN(std::string _N) {
 		}
 	}
 	if(Shortage== NotANumber)
-		throw std::invalid_argument("Введено не число");
+		throw std::invalid_argument("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ");
 	if (Shortage == Exception)
-		throw std::invalid_argument("N меньше 1");
+		throw std::invalid_argument("N пїЅпїЅпїЅпїЅпїЅпїЅ 1");
 }
 
 int PrototypeGen::Average() {
@@ -90,21 +55,21 @@ int PrototypeGen::Average() {
 		}
 	else
 		if (Shortage==Exception)
-			throw std::invalid_argument("N не может быть меньше единицы ");
+			throw std::invalid_argument("N пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ ");
 		else
-			throw std::out_of_range("Числа не были сгенерированы");
+			throw std::out_of_range("пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
 }
 
 void PrototypeGen::SetPrev(int prev) {
 	if (numbers.size() > 0)
 		numbers.back() = prev;
 	else
-		throw std::out_of_range("Числа не были сгенерированы");
+		throw std::out_of_range("пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
 }
 
 int PrototypeGen::GetPrev() {
 	if (numbers.size() > 0)
 		return numbers.back();
 	else
-		throw std::out_of_range("Числа не были сгенерированы");
+		throw std::out_of_range("пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
 }
