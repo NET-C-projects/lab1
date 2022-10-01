@@ -1,19 +1,11 @@
 using System;
 
-
-
 namespace Generators
 {
-    enum WorkingMode : byte // надо придумать как назвать нормально
-    {
-        Count_Generated,
-        Exception,
-        NotANumber,
-    };
 
-    internal class BaseGen
+    abstract class BaseGen
     {
-        protected string name;
+        protected string? name;
         protected List<int> numbers;
         protected int n;
         protected WorkingMode mode;
@@ -26,17 +18,21 @@ namespace Generators
             this.mode = Mode;
         }
 
-        public void setName(string? Name)
+        public void setName(string Name)
         {
             if (Name != null)
-                this.name = new string(Name);
+                this.name = Name;
             else
                 throw new Exception("Null pointer");
         }
 
+        public void setN(int N)
+        {
+            this.n = N;
+        }
         public void TestOutput()
         {
-            Console.WriteLine(this.name);
+            numbers.ForEach(value => Console.Write(value + " "));
         }
 
     }
