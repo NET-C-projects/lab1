@@ -8,14 +8,11 @@ internal class RandomGen : BaseGen
 
     public RandomGen(string name, string n) : base(name, n) { }
 
-    public int nextNumber
+    public override double PushNumber()
     {
-        get
-        {
-            var newNumber = rnd.Next();
-            Numbers.Add(newNumber);
+        var newNumber = rnd.Next();
+        Numbers.Add(newNumber);
 
-            return newNumber;
-        }
+        return newNumber;
     }
 }

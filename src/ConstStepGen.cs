@@ -4,11 +4,11 @@ namespace Generators;
 
 internal class ConstStepGen : BaseGen
 {
-    public int Step { set; get; }
+    public double Step { set; get; }
 
-    public ConstStepGen(string name, string n, int step = 1) : base(name, n) => Step = step;
+    public ConstStepGen(string name, string n, double step = 1) : base(name, n) => Step = step;
 
-    public int pushNumber()
+    public override double PushNumber()
     {
         var newNumber = Step;
         if (Numbers.Count() != 0)

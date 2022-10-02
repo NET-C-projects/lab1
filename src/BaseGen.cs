@@ -5,18 +5,18 @@ internal abstract class BaseGen
 {
     public readonly string Name;
     protected AverageBehavior Behavior;
-    protected List<int> Numbers;
+    protected List<double> Numbers;
 
     public BaseGen(string name, string n)
     {
         Name = new string(name);
-        Numbers = new List<int>();
+        Numbers = new List<double>();
         N = DecideBehavior(n);
     }
 
     public int N { get; }
 
-    public int Prev
+    public double Prev
     {
         set => Numbers[Numbers.Count() - 1] = value;
         get
@@ -57,10 +57,10 @@ internal abstract class BaseGen
         switch (Behavior)
         {
             case AverageBehavior.CountLastNNumbers:
-                res = (double)Numbers.TakeLast(N).Sum() / N;
+                res = Numbers.TakeLast(N).Sum() / N;
                 break;
             case AverageBehavior.CountGeneratedNumbers:
-                res = (double)Numbers.Sum() / Numbers.Count();
+                res = Numbers.Sum() / Numbers.Count();
                 break;
             case AverageBehavior.ReturnNotANumber:
                 res = double.NaN;
@@ -71,6 +71,8 @@ internal abstract class BaseGen
 
         return res;
     }
+
+    public abstract double PushNumber();
 
     internal enum AverageBehavior : byte
     {
