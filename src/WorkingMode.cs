@@ -2,7 +2,7 @@ using System;
 
 namespace Generators
 {
-    public enum WorkingMode : byte // надо придумать как назвать нормально
+    public enum WorkingMode : byte
     {
         Count_Generated,
         Exception,

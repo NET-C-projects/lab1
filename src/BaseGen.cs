@@ -10,18 +10,15 @@ namespace Generators
         protected List<int>? numbers;
         protected WorkingMode mode;
 
-        public BaseGen(string Name, string N, List<int> Numbers, WorkingMode Mode)
+        public BaseGen(string Name, string N)
         {
             this.setName(Name);
-            //this.setNumbers(Numbers);
             this.setN(N);
-            //this.setWorkingMode(Mode);
         }
-
         public virtual int Average()
         {
             int res = 0;
-            if (numbers != null)
+            if (this.numbers != null)
             {
                 res = numbers.Sum();
                 switch (this.mode)
@@ -31,7 +28,7 @@ namespace Generators
                             res /= this.n; // у нас res априори нулю равен
                         break;
                     case WorkingMode.Less:
-                        res /= numbers.Count();
+                        res /= this.numbers.Count();
                         break;
                     case WorkingMode.Exception:
                         throw new NullReferenceException("Числа не были инициализированны - нулевой указатель");
@@ -45,8 +42,6 @@ namespace Generators
             // по канонам один ретурн
             return res;
         }
-
-
         void SetPrev(int prev)
         {
             if (this.numbers != null)
@@ -54,7 +49,6 @@ namespace Generators
             else
                 throw new NullReferenceException("Числа не были инициализированны - нулевой указатель");
         }
-
         int GetPrev()
         {
             int res = 0;
@@ -71,7 +65,6 @@ namespace Generators
             else
                 throw new NullReferenceException("Имя не было инициализированно - нулевой указатель");
         }
-
         public void setN(string N)
         {
             try
@@ -94,13 +87,14 @@ namespace Generators
                 this.mode = WorkingMode.Less;
         }
 
-        public void setNumbers(List<int> Numbers)
+        public string getName()
         {
-            if (Numbers != null)
-                numbers = Numbers.ToList();
-            else
-                throw new Exception("Числа не были инициализированны - нулевой указатель");
+            return this.name;
         }
 
+        public int getN()
+        {
+            return this.n;
+        }
     }
 }
