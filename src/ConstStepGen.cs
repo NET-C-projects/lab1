@@ -1,32 +1,43 @@
-using System;
+namespace Generators;
 
-namespace Generators
+internal class ConstStepGen : BaseGen
 {
+    private int step;
 
-    class ConstStepGen : BaseGen
+    public ConstStepGen(string Name, string N, int Step = 1) : base(Name, N)
     {
-        private int step;
-        public ConstStepGen(string Name, string N, int Step = 1) : base(Name, N) => this.step = Step;
+        step = Step;
+    }
 
-        public void setSep(int Step) => this.step = Step;
-        public int getStep() { return this.step; }
-        public int pushNumber()
+    public void setSep(int Step)
+    {
+        step = Step;
+    }
+
+    public int getStep()
+    {
+        return step;
+    }
+
+    public int pushNumber()
+    {
+        var newNumber = 0;
+        if (Numbers != null)
         {
-            int newNumber = 0;
-            if (this.numbers != null)
+            if (Numbers.Count() == 0)
             {
-                if (this.numbers.Count() == 0)
-                {
-                    Random rnd = new Random();
-                    newNumber = rnd.Next();
-                }
-                else
-                    newNumber = numbers.Last() + this.step;
-
-
-                numbers.Add(newNumber);
+                var rnd = new Random();
+                newNumber = rnd.Next();
             }
-            return newNumber;
+            else
+            {
+                newNumber = Numbers.Last() + step;
+            }
+
+
+            Numbers.Add(newNumber);
         }
+
+        return newNumber;
     }
 }

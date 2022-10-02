@@ -1,108 +1,81 @@
-using System;
+namespace Generators;
 
-namespace Generators
+internal abstract class BaseGen
 {
+    public readonly string Name;
+    protected AverageBehavior Behavior;
+    protected List<int> Numbers;
 
-    abstract class BaseGen
+    public BaseGen(string name, string n)
     {
-        protected string? name;
-        protected int n;
-        protected List<int>? numbers;
-        protected WorkingMode mode;
+        Name = new string(name);
+        Numbers = new List<int>();
+        N = DecideBehavior(n);
+    }
 
-        public BaseGen(string Name, string N)
+    public int N { get; }
+
+    public int Prev
+    {
+        set => Numbers[Numbers.Count() - 1] = value;
+        get
         {
-            this.setName(Name);
-            this.setN(N);
-            this.numbers = new List<int>();
+            if (!Numbers.Any())
+                throw new IndexOutOfRangeException("Числа не были инициализированны - пустой список");
+
+            return Numbers.Last();
         }
-        public virtual int Average()
-        {
-            int res = 0;
-            if (this.numbers != null)
-            {
-                res = numbers.Sum();
-                switch (this.mode)
-                {
-                    case WorkingMode.Count_Generated:
-                        if (this.n != 0) // по сути если n = 0 <-> чисел нет <-> среднее нулю равно   
-                            res /= this.n; // у нас res априори нулю равен
-                        break;
-                    case WorkingMode.Less:
-                        res /= this.numbers.Count();
-                        break;
-                    case WorkingMode.Exception:
-                        throw new NullReferenceException("Числа не были инициализированны - нулевой указатель");
-                    case WorkingMode.NotANumber:
-                        // ???  нихуя не понял че там они на ошибку кидают - PrototypeGen.cpp line 50
-                        // как по мне там пизда какая-то))) я вроде декомпозировал
-                        break;
-                }
-            }
+    }
 
-            // по канонам один ретурн
+    private int DecideBehavior(string n)
+    {
+        var res = 0;
+
+        try
+        {
+            res = Convert.ToInt32(n);
+        }
+        catch (FormatException)
+        {
+            Behavior = AverageBehavior.ReturnNotANumber;
             return res;
         }
-        void SetPrev(int prev)
+
+        if (res <= 0) Behavior = AverageBehavior.ThrowException;
+        if (res > Numbers.Count) Behavior = AverageBehavior.CountLastNNumbers;
+        else Behavior = AverageBehavior.CountGeneratedNumbers;
+
+
+        return res;
+    }
+
+    public double Average()
+    {
+        double res = 0;
+
+        switch (Behavior)
         {
-            if (this.numbers != null)
-                this.numbers[numbers.Count() - 1] = prev;
-            else
+            case AverageBehavior.CountLastNNumbers:
+                res = (double)Numbers.TakeLast(N).Sum() / N;
+                break;
+            case AverageBehavior.CountGeneratedNumbers:
+                res = (double)Numbers.Sum() / Numbers.Count();
+                break;
+            case AverageBehavior.ReturnNotANumber:
+                res = double.NaN;
+                break;
+            case AverageBehavior.ThrowException:
                 throw new NullReferenceException("Числа не были инициализированны - нулевой указатель");
         }
-        int GetPrev()
-        {
-            int res = 0;
-            if (this.numbers == null)
-                throw new NullReferenceException("Числа не были инициализированны - нулевой указатель");
-            else if (this.numbers.Count() == 0)
-                throw new IndexOutOfRangeException("Числа не были инициализированны - пустой список")
-            else
-                res = this.numbers.Last();
 
+        return res;
+    }
 
-            return res;
-        }
-        public void setName(string Name)
-        {
-            if (Name != null)
-                this.name = new string(Name);
-            else
-            {
-                this.name = new string("no_name");
-                throw new NullReferenceException("Имя не было инициализированно - нулевой указатель");
-            }
-        }
-        public void setN(string N)
-        {
-            try
-            {
-                this.n = Convert.ToInt32(N);
-            }
-            catch (FormatException)
-            {
-                this.mode = WorkingMode.NotANumber;
-                throw new ArgumentException("На вход пришло не число");
-            }
-            if (this.n <= 0)
-            {
-                this.mode = WorkingMode.Exception;
-                throw new ArgumentOutOfRangeException(("Отрицательное количество чисел"));
-            }
-            else if (this.numbers != null && this.n > this.numbers.Count())
-                this.mode = WorkingMode.Count_Generated;
-            else
-                this.mode = WorkingMode.Less;
-        }
-
-        public string getName()
-        {
-            return this.name;
-        }
-
-        public int getN()
-        {
-            return this.n;
-        }
+    internal enum AverageBehavior : byte
+    {
+        CountGeneratedNumbers,
+        ThrowException,
+        ReturnNotANumber,
+        CountLastNNumbers
     }
 }
