@@ -1,23 +1,20 @@
 using System;
+using System.Linq;
 
 namespace Generators;
 
 internal class CompositionGen : BaseGen
 {
-
-    List<RandomGen> RandomGeneratos = new List<RandomGen>();
-    List<ConstStepGen> ConstStepGenerators = new List<ConstStepGen>();
+    private List<BaseGen> Generators = new List<BaseGen>();
 
     public CompositionGen(string name, string n) : base(name, n) { }
 
     public override double PushNumber()
     {
         double sum = 0;
-        foreach (var item in RandomGeneratos)
+        foreach (var item in Generators)
             sum += item.Average();
-        foreach (var item in ConstStepGenerators)
-            sum += item.Average();
-        double count = RandomGeneratos.Count() + ConstStepGenerators.Count();
+        double count = Generators.Count();
 
         double res = 0;
         if (count != 0)
@@ -26,43 +23,31 @@ internal class CompositionGen : BaseGen
             throw new DivideByZeroException("Не было создано ни одного генератора");
 
         Numbers.Add(res);
+        base.PushNumber();
+
         return res;
     }
 
-    public void pushRandGen(string name, string n)
+    public void deleteGenByName(string name)
     {
-        foreach (var item in RandomGeneratos)
-            if (item.Name == name)
-                throw new ArgumentException("Генератор с таким именем уже есть:\n удалите его или придумайте новое название");
-
-        RandomGeneratos.Add(new RandomGen(name, n));
+        foreach (var item in Generators.Where(item => name == item.Name))
+        {
+            Generators.Remove(item);
+            break;
+        }
     }
 
-    public void pushRandGen(RandomGen Generator)
+
+    public void pushGen(BaseGen generator)
     {
-        foreach (var item in RandomGeneratos)
-            if (item.Name == Generator.Name)
+        foreach (var item in Generators)
+            if (item.Name == generator.Name)
                 throw new ArgumentException("Генератор с таким именем уже есть:\n удалите его или придумайте новое название");
 
-        RandomGeneratos.Add(Generator);
+        Generators.Add(generator);
     }
 
-    public void pushConstGen(string name, string n)
-    {
-        foreach (var item in RandomGeneratos)
-            if (item.Name == name)
-                throw new ArgumentException("Генератор с таким именем уже есть:\n удалите его или придумайте новое название");
-
-        ConstStepGenerators.Add(new ConstStepGen(name, n));
-    }
-
-    public void pushConstGen(ConstStepGen Generator)
-    {
-        foreach (var item in RandomGeneratos)
-            if (item.Name == Generator.Name)
-                throw new ArgumentException("Генератор с таким именем уже есть:\n удалите его или придумайте новое название");
-
-        ConstStepGenerators.Add(Generator);
-    }
+    public void pushConstGen(string name, string n, double step) => pushGen(new ConstStepGen(name, n, step));
+    public void pushRandGen(string name, string n) => pushGen(new RandomGen(name, n));
 
 }

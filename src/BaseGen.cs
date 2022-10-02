@@ -42,9 +42,12 @@ internal abstract class BaseGen
             return res;
         }
 
-        if (res <= 0) Behavior = AverageBehavior.ThrowException;
-        if (res > Numbers.Count) Behavior = AverageBehavior.CountLastNNumbers;
-        else Behavior = AverageBehavior.CountGeneratedNumbers;
+        if (res <= 0)
+            Behavior = AverageBehavior.ThrowException;
+        if (res > Numbers.Count)
+            Behavior = AverageBehavior.CountLastNNumbers;
+        else
+            Behavior = AverageBehavior.CountGeneratedNumbers;
 
 
         return res;
@@ -72,7 +75,15 @@ internal abstract class BaseGen
         return res;
     }
 
-    public abstract double PushNumber();
+    public virtual double PushNumber()
+    {
+        if (N > Numbers.Count)
+            Behavior = AverageBehavior.CountLastNNumbers;
+        else
+            Behavior = AverageBehavior.CountGeneratedNumbers;
+
+        return double.NaN;
+    }
 
     internal enum AverageBehavior : byte
     {
