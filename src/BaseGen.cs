@@ -14,6 +14,7 @@ namespace Generators
         {
             this.setName(Name);
             this.setN(N);
+            this.numbers = new List<int>();
         }
         public virtual int Average()
         {
@@ -52,18 +53,25 @@ namespace Generators
         int GetPrev()
         {
             int res = 0;
-            if (this.numbers != null)
-                res = this.numbers.Last();
-            else
+            if (this.numbers == null)
                 throw new NullReferenceException("Числа не были инициализированны - нулевой указатель");
+            else if (this.numbers.Count() == 0)
+                throw new IndexOutOfRangeException("Числа не были инициализированны - пустой список")
+            else
+                res = this.numbers.Last();
+
+
             return res;
         }
         public void setName(string Name)
         {
             if (Name != null)
-                this.name = Name;
+                this.name = new string(Name);
             else
+            {
+                this.name = new string("no_name");
                 throw new NullReferenceException("Имя не было инициализированно - нулевой указатель");
+            }
         }
         public void setN(string N)
         {

@@ -6,7 +6,9 @@ namespace Generators
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var myList = new List<int>();
+            Console.WriteLine(myList.Count());
+            //ConstStepGen TEST = new ConstStepGen("Name", "123", 12);
         }
     }
 }
