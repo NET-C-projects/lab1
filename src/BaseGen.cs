@@ -1,3 +1,4 @@
+using System;
 namespace Generators;
 
 internal abstract class BaseGen
