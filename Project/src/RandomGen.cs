@@ -2,7 +2,7 @@ using System;
 
 namespace Generators;
 
-internal class RandomGen : BaseGen
+public class RandomGen : BaseGen
 {
     private Random rnd = new Random();
 

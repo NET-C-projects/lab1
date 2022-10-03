@@ -1,7 +1,7 @@
 using System;
 namespace Generators;
 
-internal abstract class BaseGen
+public abstract class BaseGen
 {
     public readonly string Name;
     protected AverageBehavior Behavior;
@@ -16,6 +16,8 @@ internal abstract class BaseGen
 
     public int N { get; }
 
+    public int GetNumbersCount() => Numbers.Count();
+    public string GetName() => Name;
     public double Prev
     {
         set => Numbers[Numbers.Count() - 1] = value;
@@ -85,7 +87,7 @@ internal abstract class BaseGen
         return double.NaN;
     }
 
-    internal enum AverageBehavior : byte
+    public enum AverageBehavior : byte
     {
         CountGeneratedNumbers,
         ThrowException,
