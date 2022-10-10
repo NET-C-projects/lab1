@@ -1,8 +1,7 @@
-using Generators;
 
-namespace src;
+namespace Generators;
 
-public class Menu
+public class UtilsForGenerators
 {
     private const int IndentFactor = 2;
 
@@ -46,16 +45,16 @@ public class Menu
         }
     }
 
-    private string InputName() => Read("Enter name: ", 2);
-    private int InputN() => Read("Enter n: ", 2, Convert.ToInt32);
-    private BaseGen.AverageBehavior InputAverageBehavior()
+    private static string InputName() => Read("Enter name: ", 2);
+    private static int InputN() => Read("Enter n: ", 2, Convert.ToInt32);
+    private static AverageBehavior InputAverageBehavior()
     {
         WriteMessage("Select the\"Calculate Average\" behavior when" +
                      "amount of available numbers is at least N\n", 2);
         return Read("(1 - exception; 2 - NaN; 3 - average of available numbers): ", 2, CheckAndConvertBehaviourInput);
     }
 
-    public ConstStepGen CreateConstStepGen()
+    public static ConstStepGen CreateConstStepGen()
     {
         var name = InputName();
         var n = InputN();
@@ -65,7 +64,7 @@ public class Menu
         return new ConstStepGen(name, n, behavior, step, startPosition);
     }
 
-    public RandomGen CreateRandomGen()
+    public static RandomGen CreateRandomGen()
     {
         var name = InputName();
         var n = InputN();
@@ -73,7 +72,7 @@ public class Menu
         return new RandomGen(name, n, behavior);
     }
 
-    public CompositionGen CreateCompositionGen()
+    public static CompositionGen CreateCompositionGen()
     {
         var name = InputName();
         var n = InputN();
@@ -81,13 +80,13 @@ public class Menu
         return new CompositionGen(name, n, behavior);
     }
 
-    private BaseGen.AverageBehavior CheckAndConvertBehaviourInput(string? name)
+    private static AverageBehavior CheckAndConvertBehaviourInput(string? name)
     {
         if (name != null)
         {
-            if (name[0] == '1') return BaseGen.AverageBehavior.ThrowException;
-            else if (name[0] == '2') return BaseGen.AverageBehavior.ReturnNaN;
-            else if (name[0] == '3') return BaseGen.AverageBehavior.ReturnAverageOfAvailableNumbers;
+            if (name[0] == '1') return AverageBehavior.ThrowException;
+            else if (name[0] == '2') return AverageBehavior.ReturnNaN;
+            else if (name[0] == '3') return AverageBehavior.ReturnAverageOfAvailableNumbers;
             else throw new Exception("");
 
         }

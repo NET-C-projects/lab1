@@ -23,7 +23,7 @@ public class CompositionGen : BaseGen
 
     public void DeleteGenByName(string name)
     {
-        var index = _generators.FindIndex(generator => generator.Name == name);
+        var index = GetGenIndexByName(name);
 
         if (index < 0)
             throw new InvalidOperationException("Generator not found");
@@ -33,16 +33,15 @@ public class CompositionGen : BaseGen
 
     public void PushGen(BaseGen generator)
     {
-        var genWithSameNameExist = _generators.FindIndex(gen => gen.Name == generator.Name) >= 0;
 
-        if (genWithSameNameExist)
+        if (GetGenIndexByName(generator.Name) >= 0)
             throw new ArgumentException("Generator with the same name already exists");
 
         _generators.Add(generator);
     }
 
-    private bool CheckGenByName(string name)
+    private int GetGenIndexByName(string name)
     {
-
+        return _generators.FindIndex(gen => gen.Name == name);
     }
 }

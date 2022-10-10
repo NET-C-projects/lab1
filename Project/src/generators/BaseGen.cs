@@ -64,10 +64,4 @@ public abstract class BaseGen
 
     public abstract double GenerateNextNumber();
 
-    public enum AverageBehavior : byte
-    {
-        ReturnAverageOfAvailableNumbers = 0,
-        ThrowException,
-        ReturnNaN,
-    }
 }

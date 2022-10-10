@@ -1,6 +1,6 @@
 ﻿using System;
-
-namespace src;
+using Generators;
+namespace Program;
 
 public class Program
 {
@@ -8,5 +8,8 @@ public class Program
     {
         var myList = new List<int>();
         Console.WriteLine(myList.Count());
+        var huita = UtilsForGenerators.CreateRandomGen();
+
+
     }
 }
