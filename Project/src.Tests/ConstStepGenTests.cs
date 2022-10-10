@@ -11,7 +11,13 @@ internal class TestGen : BaseGen
 {
 
     public TestGen(string name, int n, AverageBehavior averageBehavior) : base(name, n, averageBehavior) { }
-    public override double GenerateNextNumber() => double.NaN;
+    public override double GenerateNextNumber()
+    {
+        Numbers.Add(1);
+        return 1;
+    }
+    public void ChangeAverageBehaviour(AverageBehavior newBehavior) => _averageBehavior = newBehavior;
+
 }
 
 
@@ -19,15 +25,38 @@ internal class TestGen : BaseGen
 [TestFixture]
 public class ConstStepGen_IsGenShould
 {
-    [Test]
-    public void test1()
+    private TestGen gen;
+
+    [SetUp]
+    public void SetUp()
     {
-        var gen1 = new TestGen("Name", 123, AverageBehavior.ReturnAverageOfAvailableNumbers);
-        try
-        {
-            gen1.CalculateAverage();
-            Assert.Fail();
-        }
-        catch (InvalidOperationException) { }
+        gen = new("Name", 3, AverageBehavior.ThrowException);
     }
+    [Test]
+    public void CalculateAverage_ThrowException()
+    {
+        gen.ChangeAverageBehaviour(AverageBehavior.ThrowException);
+        Assert.Throws<InvalidOperationException>(() => gen.CalculateAverage());
+    }
+
+    [Test]
+    public void CalculateAverage_ReturnNaN()
+    {
+        gen.ChangeAverageBehaviour(AverageBehavior.ReturnNaN);
+        Assert.IsNaN(gen.CalculateAverage());
+    }
+
+    [Test]
+    public void CalculateAverage_Return1()
+    {
+        gen.ChangeAverageBehaviour(AverageBehavior.ReturnAverageOfAvailableNumbers);
+        gen.GenerateNextNumber();
+        gen.GenerateNextNumber();
+        gen.GenerateNextNumber();
+        Assert.AreEqual(1, gen.CalculateAverage(), 0.001);
+    }
+
+
+
+
 }

@@ -5,7 +5,7 @@ namespace Generators;
 public abstract class BaseGen
 {
     private readonly int _n;
-    private readonly AverageBehavior _averageBehavior;
+    protected AverageBehavior _averageBehavior;
     protected readonly List<double> Numbers;
 
     public BaseGen(string name, int n, AverageBehavior averageBehavior)
@@ -43,21 +43,22 @@ public abstract class BaseGen
 
         if (Numbers.Count >= _n)
             res = Numbers.TakeLast(_n).Sum() / _n;
-
-        switch (_averageBehavior)
+        else
         {
-            case AverageBehavior.ThrowException:
-                throw new InvalidOperationException("Amount of the numbers must be at least N");
-            case AverageBehavior.ReturnAverageOfAvailableNumbers:
-                res = Numbers.Sum() / _n;
-                break;
-            case AverageBehavior.ReturnNaN:
-                res = double.NaN;
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
+            switch (_averageBehavior)
+            {
+                case AverageBehavior.ThrowException:
+                    throw new InvalidOperationException("Amount of the numbers must be at least N");
+                case AverageBehavior.ReturnAverageOfAvailableNumbers:
+                    res = Numbers.Sum() / _n;
+                    break;
+                case AverageBehavior.ReturnNaN:
+                    res = double.NaN;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
-
         return res;
 
     }
