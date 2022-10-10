@@ -23,7 +23,7 @@ internal class TestGen : BaseGen
 
 
 [TestFixture]
-public class ConstStepGen_IsGenShould
+public class BaseGenTests
 {
     private TestGen gen;
 
@@ -32,6 +32,7 @@ public class ConstStepGen_IsGenShould
     {
         gen = new("Name", 3, AverageBehavior.ThrowException);
     }
+
     [Test]
     public void CalculateAverage_ThrowException()
     {

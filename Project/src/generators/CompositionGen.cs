@@ -44,4 +44,18 @@ public class CompositionGen : BaseGen
     {
         return _generators.FindIndex(gen => gen.Name == name);
     }
+
+    public void GenerateNumberInGenerator(string name)
+    {
+        GenerateNumberInGenerator(GetGenIndexByName(name));
+    }
+
+    public void GenerateNumberInGenerator(int index)
+    {
+        if (index < 0 || index > _generators.Count || !_generators.Any())
+            throw new IndexOutOfRangeException("Can't find generator");
+        _generators[index].GenerateNextNumber();
+
+    }
+
 }
