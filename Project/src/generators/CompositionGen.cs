@@ -13,7 +13,7 @@ public class CompositionGen : BaseGen
     {
         if (!_generators.Any())
             throw new InvalidOperationException("Requires at least one generator");
-        
+
         var sumOfAverages = _generators.Sum(generator => generator.CalculateAverage());
         var res = sumOfAverages / _generators.Count;
 
@@ -27,7 +27,7 @@ public class CompositionGen : BaseGen
 
         if (index < 0)
             throw new InvalidOperationException("Generator not found");
-        
+
         _generators.RemoveAt(index);
     }
 
@@ -37,7 +37,12 @@ public class CompositionGen : BaseGen
 
         if (genWithSameNameExist)
             throw new ArgumentException("Generator with the same name already exists");
-        
+
         _generators.Add(generator);
+    }
+
+    private bool CheckGenByName(string name)
+    {
+
     }
 }

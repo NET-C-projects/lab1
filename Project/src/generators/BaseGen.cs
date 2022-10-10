@@ -36,20 +36,30 @@ public abstract class BaseGen
             return Numbers.Last();
         }
     }
-    
+
     public double CalculateAverage()
     {
-        if (Numbers.Count >= _n)
-            return Numbers.TakeLast(_n).Sum() / _n;
+        double res = 0;
 
-        return _averageBehavior switch
+        if (Numbers.Count >= _n)
+            res = Numbers.TakeLast(_n).Sum() / _n;
+
+        switch (_averageBehavior)
         {
-            AverageBehavior.ThrowException =>
-                throw new InvalidOperationException("Amount of the numbers must be at least N"),
-            AverageBehavior.ReturnNaN => double.NaN,
-            AverageBehavior.ReturnAverageOfAvailableNumbers => Numbers.Sum() / _n,
-            _ => throw new ArgumentOutOfRangeException()
-        };
+            case AverageBehavior.ThrowException:
+                throw new InvalidOperationException("Amount of the numbers must be at least N");
+            case AverageBehavior.ReturnAverageOfAvailableNumbers:
+                res = Numbers.Sum() / _n;
+                break;
+            case AverageBehavior.ReturnNaN:
+                res = double.NaN;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+
+        return res;
+
     }
 
     public abstract double GenerateNextNumber();
