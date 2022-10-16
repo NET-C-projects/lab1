@@ -1,4 +1,3 @@
-
 namespace Generators;
 
 public class UtilsForGenerators
