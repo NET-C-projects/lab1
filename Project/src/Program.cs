@@ -4,30 +4,34 @@ namespace Program;
 
 public class Program
 {
-    static List<ConstStepGen> ProgramConstStepGens = new List<ConstStepGen>();
-    static List<RandomGen> ProgramRandomGens = new List<RandomGen>();
-    static List<CompositionGen> ProgramCompositionGens = new List<CompositionGen>();
+    static ConstStepGen[] ProgramConstStepGens = new ConstStepGen[] { };
+    static IEnumerable<RandomGen> ProgramRandomGens = new List<RandomGen>();
+    static IEnumerable<CompositionGen> ProgramCompositionGens = new List<CompositionGen>();
 
     static void Main(string[] args)
     {
 
         PrintStartMessage();
-        char input = '1';
+        char input = 'o';
         while (input != 'q')
         {
+            PrintMenuOptions();
+            Console.Write("Введите команду:");
+            input = Console.ReadKey().KeyChar;
+            Console.WriteLine();
             switch (input)
             {
+
                 case '0':
-                    PrintHowGensWorks();
+                    MenuPointHowProgramWorks();
                     break;
                 case '1':
-                    PrintHowConsStepGenWorks();
+                    PrintGensInProgram();
                     break;
                 case '2':
-                    PrintHowRandGenWorks();
+                    MenuPointAddDelGen();
                     break;
                 case '3':
-                    PrintHowCompositGenWorks();
                     break;
                 case '4':
                     break;
@@ -35,47 +39,125 @@ public class Program
                     Console.WriteLine("\nНеизвестная команда");
                     break;
             }
-            PrintMenuOptions();
-            Console.Write("Введите команду:");
-            input = Console.ReadKey().KeyChar;
+
         }
     }
 
+
+    // переделать
     public static void PrintGensInProgram()
     {
-        Console.WriteLine("Генераторы с постоянным шагом:\n");
+        Console.WriteLine("Генераторы с постоянным шагом:");
         PrintGens(ProgramConstStepGens);
-
+        Console.WriteLine("Генераторы псевдослучайных чисел:");
+        //PrintGens(ProgramRandomGens);
+        Console.WriteLine("Композитные генераторы:");
+        //PrintGens(ProgramCompositionGens);
 
     }
 
-    public static void PrintGens(List<BaseGen> gen)
+    public static void PrintGens(BaseGen[] gen)
     {
         if (gen.Any())
             foreach (var item in gen)
-                Console.WriteLine(item.Name);
+                Console.WriteLine("*" + item.Name);
         else
-            Console.WriteLine("Генераторы отсуствуют\n");
+            Console.WriteLine("*Генераторы отсуствуют");
     }
 
-    public static void PrintMenuOptions() => Console.WriteLine("\n\nМеню программы:\n" +
-                                                           "\t0 - Как работают генераторы\n" +
-                                                           "\t1 - Как работает генератор с постоянным шагом\n" +
-                                                           "\t2 - Как работает композитны генератор\n" +
-                                                           "\t3 - Как работает генератор псевдослучаных чисел\n" +
-                                                           "\t4 - Вывод списка генераторов\n" +
-                                                           "\t5 - Добавление генератора для использования\n" +
-                                                           "\t6 - Подсчет среднего числа у генератора\n" +
-                                                           "\t7 - Добавление генератора в композитный генератор\n" +
-                                                           "\t8 - Удаление генератора из композитного генератора(по имени/индексу)\n" +
-                                                           "\tq - Выход\n");
+
+
+
+    public static void MenuPointHowProgramWorks()
+    {
+        char input = 'o';
+        while (input != 'q')
+        {
+            PrintOptionsHowProgramWorks();
+            Console.Write("Введите команду:");
+            input = Console.ReadKey().KeyChar;
+            Console.WriteLine();
+            switch (input)
+            {
+                case '0':
+                    PrintHowConsStepGenWorks();
+                    break;
+                case '1':
+                    PrintHowRandGenWorks();
+                    break;
+                case '2':
+                    PrintHowCompositGenWorks();
+                    break;
+                case '3':
+                    PrintHowGensWorks();
+                    break;
+                case 'q':
+                    break;
+                default:
+                    Console.WriteLine("\nНеизвестная команда");
+                    break;
+            }
+        }
+    }
+
+    public static void MenuPointAddDelGen()
+    {
+        char input = 'a';
+        while (input != 'q')
+        {
+            PrintOptionsAddDelGen();
+            Console.Write("Введите команду:");
+            input = Console.ReadKey().KeyChar;
+            Console.WriteLine();
+            switch (input)
+            {
+                case '0':
+                    ProgramConstStepGens.Append(UtilsForGenerators.CreateConstStepGen());
+                    break;
+                case '1':
+                    ProgramRandomGens.Append(UtilsForGenerators.CreateRandomGen());
+                    break;
+                case '2':
+                    ProgramCompositionGens.Append(UtilsForGenerators.CreateCompositionGen());
+                    break;
+                case '3':
+                    Console.WriteLine("Раздел в работе");
+                    break;
+                case 'q':
+                    break;
+                default:
+                    Console.WriteLine("\nНеизвестная команда");
+                    break;
+            }
+
+        }
+    }
+
+
+
+
+
+
+    public static void PrintHowConsStepGenWorks() => Console.WriteLine("(Const)Генератор с постоянным шагом создает числа от начальной позиции, прибавляя некотрое число.");
+
+    public static void PrintHowRandGenWorks() => Console.WriteLine("(Rand)Генератор псевдослучайных чисел создает числа с помощью *ВоЛшЕбНоГо* алгоритма.");
+
+    public static void PrintHowCompositGenWorks() => Console.WriteLine("(Composite)Композитный генератор - генератор, сосотящий из других генераторов. Можно добавлять соответственно другие генераторы\n" +
+                                                                        "(Composite)Подсчет среднего арифметического числа соответственно считает средние всех вложенных генераторов и считает их среднее");
+
+
+    public static void PrintOptionsAddDelGen() => Console.WriteLine("\t0 - Добавить генератор с постоянным шагом\n" +
+                                                                     "\t1 - Добавить генератор псевдослучаных чисел\n" +
+                                                                     "\t2 - Добавить композитный генератор\n" +
+                                                                     "\t3 - Удалить генератор из композитного генератора\n" +
+                                                                     "\tq - Выйти из данного пункта меню");
 
 
     public static void PrintStartMessage() => Console.WriteLine("Вас приветсвует программа по генерированию случайных чисел!\n" +
                                                     "Доступны 3 вида генераторов чисел:\n" +
                                                     "\t1 - Генератор с постоянным шагом\n" +
                                                     "\t2 - Генератор псевдослучайных чисел\n" +
-                                                    "\t3 - Композитный генератор\n");
+                                                    "\t3 - Композитный генератор");
 
     public static void PrintHowGensWorks()
     {
@@ -88,14 +170,21 @@ public class Program
         PrintHowRandGenWorks();
         PrintHowCompositGenWorks();
     }
+    public static void PrintOptionsHowProgramWorks() => Console.WriteLine("\t0 - Как работает генератор с постоянным шагом\n" +
+                                                                           "\t1 - Как работает генератор псевдослучаных чисел\n" +
+                                                                           "\t2 - Как работает композитный генератор\n" +
+                                                                           "\t3 - В целом о программе и работе генераторов\n" +
+                                                                           "\tq - Выйти из данного пункта меню");
 
 
-    public static void PrintHowConsStepGenWorks() => Console.WriteLine("(Const)Генератор с постоянным шагом создает числа от начальной позиции, прибавляя некотрое число.");
-
-    public static void PrintHowRandGenWorks() => Console.WriteLine("(Rand)Генератор псевдослучайных чисел создает числа с помощью *ВоЛшЕбНоГо* алгоритма.");
-
-    public static void PrintHowCompositGenWorks() => Console.WriteLine("(Composite)Композитный генератор - генератор, сосотящий из других генераторов. Можно добавлять соответственно другие генераторы\n" +
-                                                                        "(Composite)Подсчет среднего арифметического числа соответственно считает средние всех вложенных генераторов и считает их среднее");
+    public static void PrintMenuOptions() => Console.WriteLine("\n\nМеню программы:\n" +
+                                                           "\t0 - Как работают проргамма и генераторы\n" +
+                                                           "\t1 - Вывод списка генераторов\n" +
+                                                           "\t2 - Добавление генератора для использования\n" +
+                                                           "\t3 - Подсчет среднего числа у генератора\n" +
+                                                           "\t7 - Добавление генератора в композитный генератор\n" +
+                                                           "\t8 - Удаление генератора из композитного генератора(по имени/индексу)\n" +
+                                                           "\tq - Выход\n");
 
 
 }
