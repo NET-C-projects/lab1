@@ -48,7 +48,7 @@ public abstract class BaseGen
             switch (_averageBehavior)
             {
                 case AverageBehavior.ThrowException:
-                    throw new InvalidOperationException("Amount of the numbers must be at least N");
+                    throw new InvalidOperationException("Количество чисел должно быть хотя бы N");
                 case AverageBehavior.ReturnAverageOfAvailableNumbers:
                     res = Numbers.Sum() / _n;
                     break;

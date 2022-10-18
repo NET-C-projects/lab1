@@ -12,7 +12,7 @@ public class CompositionGen : BaseGen
     public override double GenerateNextNumber()
     {
         if (!_generators.Any())
-            throw new InvalidOperationException("Requires at least one generator");
+            throw new InvalidOperationException("Требуется хотя бы один генератор");
 
         var sumOfAverages = _generators.Sum(generator => generator.CalculateAverage());
         var res = sumOfAverages / _generators.Count;
@@ -26,7 +26,7 @@ public class CompositionGen : BaseGen
         var index = GetGenIndexByName(name);
 
         if (index < 0)
-            throw new InvalidOperationException("Generator not found");
+            throw new InvalidOperationException("Генератор не найден");
 
         _generators.RemoveAt(index);
     }
@@ -35,7 +35,7 @@ public class CompositionGen : BaseGen
     {
 
         if (GetGenIndexByName(generator.Name) >= 0)
-            throw new ArgumentException("Generator with the same name already exists");
+            throw new ArgumentException("Генератор с таким именем уже существует");
 
         _generators.Add(generator);
     }
@@ -53,7 +53,7 @@ public class CompositionGen : BaseGen
     public void GenerateNumberInGenerator(int index)
     {
         if (index < 0 || index > _generators.Count || !_generators.Any())
-            throw new IndexOutOfRangeException("Can't find generator");
+            throw new IndexOutOfRangeException("Генератор не найден");
         _generators[index].GenerateNextNumber();
 
     }

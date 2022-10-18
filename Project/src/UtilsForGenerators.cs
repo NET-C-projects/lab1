@@ -26,12 +26,12 @@ public class UtilsForGenerators
             }
             catch (Exception)
             {
-                WriteMessage("Entered data is invalid\n", indentSize);
+                WriteMessage("Введенные данные некорректны\n", indentSize);
             }
         }
     }
 
-    private static string Read(string message, int indentSize)
+    public static string Read(string message, int indentSize)
     {
         while (true)
         {
@@ -44,13 +44,15 @@ public class UtilsForGenerators
         }
     }
 
-    private static string InputName() => Read("Enter name: ", 2);
-    private static int InputN() => Read("Enter n: ", 2, Convert.ToInt32);
+    private static string InputName() => Read("Введите имя: ", 2);
+    private static int InputN() => Read("Введите n: ", 2, Convert.ToInt32);
     private static AverageBehavior InputAverageBehavior()
     {
-        WriteMessage("Select the\"Calculate Average\" behavior when" +
-                     "amount of available numbers is at least N\n", 2);
-        return Read("(1 - exception; 2 - NaN; 3 - average of available numbers): ", 2, CheckAndConvertBehaviourInput);
+        WriteMessage("Выберете поведение калькулятора при недостатке сгенерированных чисел", 2);
+        return Read("(1 - ошибка(exception)\n" +
+        " 2 - НеЧисло(NaN)\n" +
+        " 3 - подсчет среднего имеющихся чисел(average of available numbers))\n: ",
+         2, CheckAndConvertBehaviourInput);
     }
 
     public static ConstStepGen CreateConstStepGen()
@@ -58,8 +60,8 @@ public class UtilsForGenerators
         var name = InputName();
         var n = InputN();
         var behavior = InputAverageBehavior();
-        var step = Read("Enter Genetatro's step:", 2, Convert.ToInt32);
-        var startPosition = Read("Enter start position of generator", 2, Convert.ToInt32);
+        var step = Read("Выбирите шаг генератора:", 2, Convert.ToInt32);
+        var startPosition = Read("Выбирите стартовую позицию генератора:", 2, Convert.ToInt32);
         return new ConstStepGen(name, n, behavior, step, startPosition);
     }
 
