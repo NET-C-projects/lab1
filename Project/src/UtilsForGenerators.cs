@@ -48,10 +48,11 @@ public class UtilsForGenerators
     private static int InputN() => Read("Введите n: ", 2, Convert.ToInt32);
     private static AverageBehavior InputAverageBehavior()
     {
-        WriteMessage("Выберете поведение калькулятора при недостатке сгенерированных чисел", 2);
-        return Read("(1 - ошибка(exception)\n" +
-        " 2 - НеЧисло(NaN)\n" +
-        " 3 - подсчет среднего имеющихся чисел(average of available numbers))\n: ",
+        WriteMessage("Выберете поведение калькулятора при недостатке сгенерированных чисел\n", 2);
+        return Read("\t1 - ошибка(exception)\n" +
+        "\t2 - НеЧисло(NaN)\n" +
+        "\t3 - подсчет среднего имеющихся чисел(average of available numbers))\n" +
+        "\tВвод:",
          2, CheckAndConvertBehaviourInput);
     }
 

@@ -9,6 +9,8 @@ public class CompositionGen : BaseGen
 
     public CompositionGen(string name, int n, AverageBehavior averageBehavior) : base(name, n, averageBehavior) { }
 
+    public List<BaseGen>.Enumerator GetEnumerator() => _generators.GetEnumerator();
+
     public override double GenerateNextNumber()
     {
         if (!_generators.Any())
@@ -44,6 +46,13 @@ public class CompositionGen : BaseGen
     {
         return _generators.FindIndex(gen => gen.Name == name);
     }
+    public BaseGen FindGenByName(string name)
+    {
+        int index = GetGenIndexByName(name);
+        if (IndexValidate(index))
+            throw new ArgumentOutOfRangeException("Генератор не найден");
+        return _generators[index];
+    }
 
     public void GenerateNumberInGenerator(string name)
     {
@@ -52,10 +61,18 @@ public class CompositionGen : BaseGen
 
     public void GenerateNumberInGenerator(int index)
     {
-        if (index < 0 || index > _generators.Count || !_generators.Any())
+        if (IndexValidate(index))
             throw new IndexOutOfRangeException("Генератор не найден");
         _generators[index].GenerateNextNumber();
 
     }
+    public double CalculateAverageInGenerator(string name)
+    {
+        int index = GetGenIndexByName(name);
+        if (IndexValidate(index))
+            throw new IndexOutOfRangeException("Генератор не найден");
+        return _generators[index].CalculateAverage();
+    }
 
+    private bool IndexValidate(int index) => (index < 0 || index > _generators.Count || !_generators.Any());
 }

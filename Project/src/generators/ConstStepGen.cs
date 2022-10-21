@@ -20,7 +20,7 @@ public class ConstStepGen : BaseGen
     {
         var newNumber = !Numbers.Any() ? _initialNumber : Numbers.Last() + _step;
         Numbers.Add(newNumber);
-        
+
         return newNumber;
     }
 }
