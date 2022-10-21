@@ -34,8 +34,8 @@ public class CompositionGenTests
     public void CalculateAverage_0_3_Return3()
     {
         gen.PushGen(new ConstStepGen("NameConst2", n, AverageBehavior.ReturnAverageOfAvailableNumbers, step));
-        gen.GenerateNumberInGenerator(0);
-        gen.GenerateNumberInGenerator(0);
+        gen.FindGenByName("NameConst2").GenerateNextNumber();
+        gen.FindGenByName("NameConst2").GenerateNextNumber();
         gen.GenerateNextNumber();
         Assert.AreEqual(step, gen.CalculateAverage());
     }
@@ -52,7 +52,7 @@ public class CompositionGenTests
     [Test]
     public void GenerateNumberInGenerator_index_minus1()
     {
-        Assert.Throws<IndexOutOfRangeException>(() => gen.GenerateNumberInGenerator(-1));
+        Assert.Throws<IndexOutOfRangeException>(() => gen.FindGenByName(""));
     }
 
 }
