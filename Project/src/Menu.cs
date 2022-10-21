@@ -69,7 +69,7 @@ public class Menu
                 CalculateAverageMenuItem(indentSize);
                 break;
             case "5":
-                GenerateNextNumber(indentSize);
+                GenerateNextNumberMenuItem(indentSize);
                 break;
             case "q":
                 return ControlFlow.Quit;
@@ -81,7 +81,7 @@ public class Menu
         return ControlFlow.Continue;
     }
 
-    private void GenerateNextNumber(int indentSize)
+    private void GenerateNextNumberMenuItem(int indentSize)
     {
         Console.WriteLine("");
         GensIoUtils.WriteMessage("Выберете генератор:", indentSize);
