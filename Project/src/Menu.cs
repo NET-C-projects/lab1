@@ -167,7 +167,7 @@ public class Menu
         _compositionGen.DeleteGenByName(genNameToDelete);
     }
 
-    private void HowGeneratorsWorkMenuItem(int indentSize)
+    private static void HowGeneratorsWorkMenuItem(int indentSize)
     {
         while (true)
         {
