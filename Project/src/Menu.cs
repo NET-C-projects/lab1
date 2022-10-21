@@ -23,58 +23,39 @@ public class Menu
         while (input != 'q')
         {
             PrintMenuOptions();
-            input = UtilsForGenerators.Read("Введите команду:", 2)[0];
-            switch (input)
+            input = UtilsForGenerators.Read("Введите команду:", 1)[0];
+            try
             {
-
-                /*
-                "\t0 - Как работают проргамма и генераторы\n" +
-                "\t1 - Добавление генератора\n" +
-                "\t2 - Удаление генератора\n" +
-                "\t3 - Вывод списка генераторов\n" +
-                "\t4 - Подсчет среднего числа\n" +
-                "\t5 - Генерирование числа в генераторе\n" +
-                "\t6 - Просмотр последнего сгенерированного числа в генераторе\n" +
-                "\tq - Выход\n" 
-                */
-
-                case '0':
-                    MenuPointHowProgramWorks();
-                    break;
-                case '1':
-                    try
-                    {
+                switch (input)
+                {
+                    case '0':
+                        MenuPointHowProgramWorks();
+                        break;
+                    case '1':
                         AddGenToProgramCompositGen();
-                    }
-                    catch (ArgumentException ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                    }
-                    break;
-                case '2':
-                    try
-                    {
+                        break;
+                    case '2':
                         DelGenFromProgramCompositGen();
-                    }
-                    catch (IndexOutOfRangeException ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                    }
-                    break;
-                case '3':
-                    PrintGensInProgram();
-                    break;
-                case '4':
-                    MenuPointCalculateAverage();
-                    break;
-                case '5':
-                    MenuPointGenerateNextNumber();
-                    break;
-                case 'q':
-                    break;
-                default:
-                    Console.WriteLine("\nНеизвестная команда\n\n");
-                    break;
+                        break;
+                    case '3':
+                        PrintGensInProgram();
+                        break;
+                    case '4':
+                        MenuPointCalculateAverage();
+                        break;
+                    case '5':
+                        MenuPointGenerateNextNumber();
+                        break;
+                    case 'q':
+                        break;
+                    default:
+                        Console.WriteLine("\nНеизвестная команда\n\n");
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
 
         }
@@ -83,102 +64,71 @@ public class Menu
 
     private void MenuPointGenerateNextNumber()
     {
-        char input = UtilsForGenerators.Read("Добавление числа у композитного генератора или у вложенного в него?/n" +
-                                          "\tc - Композитный\n" +
-                                          "\tn - Вложенный в него\n" +
-                                          "\tq - Выход из данного пункта меню\n" +
-                                          " \tВвод:8", 2)[0];
+        UtilsForGenerators.WriteMessage("Добавление числа у композитного генератора или у вложенного в него?\n" +
+                                        "c - Композитный\n" +
+                                        "n - Вложенный в него\n" +
+                                        "q - Выход из данного пункта меню\n");
+        char input = UtilsForGenerators.Read("\tВвод:8", 1)[0];
 
+        double? genetrated = 0;
         switch (input)
         {
             case 'c':
-                ProgramGenGenerateNextNumber(Gens);
+                string genName = UtilsForGenerators.Read("Введите имя генератора, в котором будет генерироваться число:", 2);
+                genetrated = Gens.FindGenByName(genName).GenerateNextNumber();
                 break;
             case 'n':
-                GenerateNextNumberNeastedGen();
+                genetrated = Gens.GenerateNextNumber();
                 break;
             default:
                 Console.WriteLine("Операция не выполнена, выход");
+                genetrated = null;
                 break;
         }
+        if (genetrated != null)
+            Console.WriteLine($"Сгенерированное число = {genetrated}");
     }
 
-    private void GenerateNextNumberNeastedGen()
-    {
-        string GenName = UtilsForGenerators.Read("Введите имя генератора, в котором будет генерироваться число:", 2);
-        try
-        {
-            ProgramGenGenerateNextNumber(Gens.FindGenByName(GenName));
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-        }
-    }
 
-    private void ProgramGenGenerateNextNumber(BaseGen gen)
-    {
-        try
-        {
-            gen.GenerateNextNumber();
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-        }
-    }
 
     private void MenuPointCalculateAverage()
     {
-        char input = UtilsForGenerators.Read("Подсчет среднего у композитного генератора или у вложенного в него\n?" +
-                                            "\tc - Композитный\n" +
-                                            "\tn - Вложенный в него\n" +
-                                            "\tq - Выход из данного пункта меню\n" +
-                                            "\tВвод:", 2)[0];
+        UtilsForGenerators.WriteMessage("Подсчет среднего у композитного генератора или у вложенного в него\n?" +
+                                        "c - Композитный\n" +
+                                        "n - Вложенный в него\n" +
+                                        "q - Выход из данного пункта меню\n");
+        char input = UtilsForGenerators.Read("Ввод:", 2)[0];
         double average = 0;
         switch (input)
         {
             case 'c':
                 average = ProgramGenCalculateAverage(Gens);
+                Console.WriteLine($"Среднее = {average}");
                 break;
             case 'n':
                 average = CalculateAverageNeastedGen();
+                Console.WriteLine($"Среднее = {average}");
                 break;
             default:
                 Console.WriteLine("Операция не выполнена, выход");
                 break;
         }
-        Console.WriteLine($"Среднее = {average}");
     }
 
     private double CalculateAverageNeastedGen()
     {
-        string GenName = UtilsForGenerators.Read("Введите имя генератора, в котором будет подсчитывать среднее:", 2);
+        string genName = UtilsForGenerators.Read("Введите имя генератора, в котором будет подсчитывать среднее:", 2);
         double average = 0;
-        try
-        {
-            average = ProgramGenCalculateAverage(Gens.FindGenByName(GenName));
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-        }
+        average = ProgramGenCalculateAverage(Gens.FindGenByName(genName));
         return average;
     }
 
     private double ProgramGenCalculateAverage(BaseGen gen)
     {
         double average = 0;
-        try
-        {
-            average = Gens.CalculateAverage();
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-        }
+        average = Gens.CalculateAverage();
         if (double.Equals(average, double.NaN))
-            Console.WriteLine("Чисел должно быть хотя бы N");
+            throw new InvalidOperationException("Должно быть хотя бы N чисел");
         return average;
 
     }
@@ -192,14 +142,13 @@ public class Menu
 
     private void AddGenToProgramCompositGen()
     {
-        char WhatGenDecision = UtilsForGenerators.Read("Какой генератор будем создавать? \n " +
-                                                        "\tc - генератор с постоянным шагом\n" +
-                                                        "\tr - генератор псевдослучайных чисел\n" +
-                                                        "\tВвод:", 2)[0];
-        switch (WhatGenDecision)
+        UtilsForGenerators.WriteMessage("Какой генератор будем создавать? \n " +
+                                        "c - генератор с постоянным шагом\n" +
+                                        "r - генератор псевдослучайных чисел\n");
+        char whatGenDecision = UtilsForGenerators.Read("\tВвод:", 2)[0];
+        switch (whatGenDecision)
         {
             case 'c':
-
                 Gens.PushGen(UtilsForGenerators.CreateConstStepGen());
                 break;
             case 'r':
@@ -213,16 +162,10 @@ public class Menu
 
     private void DelGenFromProgramCompositGen()
     {
-        string GenNameToDelete = UtilsForGenerators.Read("Введите имя генератора для удаления:", 2);
-        try
-        {
-            Gens.DeleteGenByName(GenNameToDelete);
-        }
-        catch (InvalidOperationException ex)
-        {
-            Console.WriteLine(ex.Message);
-        }
+        string genNameToDelete = UtilsForGenerators.Read("Введите имя генератора для удаления:", 2);
+        Gens.DeleteGenByName(genNameToDelete);
     }
+
 
     private void MenuPointHowProgramWorks()
     {
@@ -254,6 +197,8 @@ public class Menu
             }
         }
     }
+
+
     private void PrintMenuOptions() => Console.WriteLine("\n\nМеню программы:\n" +
                                                         "\t0 - Как работают проргамма и генераторы\n" +
                                                         "\t1 - Добавление генератора\n" +
@@ -261,8 +206,7 @@ public class Menu
                                                         "\t3 - Вывод списка генераторов\n" +
                                                         "\t4 - Подсчет среднего числа\n" +
                                                         "\t5 - Генерирование числа в генераторе\n" +
-                                                        "\t6 - Просмотр последнего сгенерированного числа в генераторе\n" +
-                                                        "\tq - Выход\n");
+                                                        "\tq - Выход");
 
 
     private void PrintOptionsHowProgramWorks() => Console.WriteLine("\t0 - Как работает генератор с постоянным шагом\n" +

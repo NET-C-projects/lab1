@@ -4,7 +4,7 @@ public class UtilsForGenerators
 {
     private const int IndentFactor = 2;
 
-    private static void WriteMessage(string message, int indentSize = 5)
+    public static void WriteMessage(string message, int indentSize = 5)
     {
         for (var i = 0; i < indentSize * IndentFactor; i++)
             Console.Write(" ");
@@ -40,7 +40,7 @@ public class UtilsForGenerators
             var value = Console.ReadLine();
             if (value != null) return value;
 
-            WriteMessage("Entered data is invalid\n", indentSize);
+            WriteMessage("Введенные данные некорректны\n", indentSize);
         }
     }
 

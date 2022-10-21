@@ -54,25 +54,5 @@ public class CompositionGen : BaseGen
         return _generators[index];
     }
 
-    public void GenerateNumberInGenerator(string name)
-    {
-        GenerateNumberInGenerator(GetGenIndexByName(name));
-    }
-
-    public void GenerateNumberInGenerator(int index)
-    {
-        if (IndexValidate(index))
-            throw new IndexOutOfRangeException("Генератор не найден");
-        _generators[index].GenerateNextNumber();
-
-    }
-    public double CalculateAverageInGenerator(string name)
-    {
-        int index = GetGenIndexByName(name);
-        if (IndexValidate(index))
-            throw new IndexOutOfRangeException("Генератор не найден");
-        return _generators[index].CalculateAverage();
-    }
-
     private bool IndexValidate(int index) => (index < 0 || index > _generators.Count || !_generators.Any());
 }
